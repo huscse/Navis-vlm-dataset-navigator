@@ -2,10 +2,7 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <div
-      className="min-h-screen flex flex-col bg-[linear-gradient(180deg,#111827_0%,#000000_45%,#1F2937_95%)]
-"
-    >
+    <div>
       <div className="px-4 py-10 text-center">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
           VLM-Driven{' '}
