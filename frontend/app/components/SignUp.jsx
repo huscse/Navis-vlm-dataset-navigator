@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '../lib/supabaseClient'; // <-- add this import
+import { supabase } from '../lib/supabaseClient';
 import GitHubButton from './GithubButton';
 
 export default function SignUp() {
@@ -49,10 +49,8 @@ export default function SignUp() {
     if (error) {
       return setErrorMsg(error.message);
     }
-
-    // If email confirmations are ON, send user to "check your email" page or login.
-    // If confirmations are OFF, you can route straight to the app home.
-    router.push('/signin'); // or router.push('/')
+    // If successful, redirect to sign in page
+    router.push('/signin');
   };
 
   const disabled =
