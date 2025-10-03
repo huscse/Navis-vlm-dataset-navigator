@@ -17,7 +17,6 @@ export default function LandingPage() {
     }
   }, [session, router]);
 
-  // While loading session, you can show a loader or nothing
   if (!session) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#111827_0%,#000000_45%,#1F2937_95%)] text-white">
