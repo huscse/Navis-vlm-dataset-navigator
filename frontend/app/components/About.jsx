@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import Team from './Team';
 
 const About = () => {
   return (
@@ -62,6 +63,7 @@ const About = () => {
               quickly and intuitively.
             </p>
           </div>
+          <Team />
         </div>
       </section>
     </div>
