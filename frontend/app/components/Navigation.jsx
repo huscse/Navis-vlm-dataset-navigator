@@ -11,7 +11,7 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h2 className="text-2xl font-bold">Navis</h2>
+              <h2 className="text-2xl font-bold">Navis.</h2>
             </div>
 
             <div className="hidden md:flex space-x-4">
