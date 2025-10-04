@@ -1,14 +1,19 @@
+// frontend/app/components/SearchResults.jsx
 'use client';
 
 import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Sparkles } from 'lucide-react';
+import ResultCard from './ResultCard';
 
 export default function SearchResults({ results, loading, error }) {
   // Loading state
   if (loading) {
     return (
-      <div className="mt-8 max-w-5xl mx-auto text-center">
-        <p className="text-gray-300">Searching…</p>
+      <div className="mt-12 max-w-5xl mx-auto text-center">
+        <div className="inline-flex items-center gap-3 text-gray-300">
+          <div className="w-5 h-5 border-2 border-gray-500 border-t-white rounded-full animate-spin" />
+          <p className="text-lg">Searching datasets...</p>
+        </div>
       </div>
     );
   }
@@ -16,10 +21,13 @@ export default function SearchResults({ results, loading, error }) {
   // Error state
   if (error) {
     return (
-      <div className="mt-8 max-w-5xl mx-auto">
-        <div className="flex items-center justify-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <AlertCircle className="w-5 h-5" />
-          <p>{error}</p>
+      <div className="mt-12 max-w-3xl mx-auto px-4">
+        <div className="flex items-start gap-3 text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-5 backdrop-blur-sm">
+          <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="font-semibold mb-1">Search Error</h3>
+            <p className="text-sm text-red-300">{error}</p>
+          </div>
         </div>
       </div>
     );
@@ -28,9 +36,18 @@ export default function SearchResults({ results, loading, error }) {
   // Empty state (no results yet)
   if (!results || results.length === 0) {
     return (
-      <div className="mt-8 max-w-5xl mx-auto text-center">
-        <p className="text-gray-400">
-          No results yet. Try searching for "pedestrian" or "red light".
+      <div className="mt-10 max-w-3xl mx-auto text-center px-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 mb-4">
+          <Sparkles className="w-8 h-8 text-gray-400" />
+        </div>
+        <h3 className="text-xl font-semibold text-white mb-2">
+          Start Your Search
+        </h3>
+        <p className="text-gray-400 leading-relaxed">
+          Try searching for scenes like{' '}
+          <span className="text-white font-medium">"pedestrian crossing"</span>,{' '}
+          <span className="text-white font-medium">"red light"</span>, or{' '}
+          <span className="text-white font-medium">"cyclist overtaking"</span>
         </p>
       </div>
     );
@@ -38,57 +55,28 @@ export default function SearchResults({ results, loading, error }) {
 
   // Results grid
   return (
-    <div className="mt-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="mb-4 text-gray-400 text-sm">
-        Found {results.length} result{results.length !== 1 ? 's' : ''}
+    <div className="mt-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      {/* Results header */}
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-1 h-6 bg-gradient-to-b from-gray-400 to-slate-700 rounded-full" />
+          <h2 className="text-lg font-semibold text-white">Search Results</h2>
+          <span className="text-sm text-gray-200">
+            ({results.length} {results.length === 1 ? 'result' : 'results'})
+          </span>
+        </div>
       </div>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Results grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {results.map((result, index) => (
-          <li
+          <ResultCard
             key={result.id || `${result.title}-${index}`}
-            className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-200 group"
-          >
-            {/* Thumbnail */}
-            <div className="h-40 bg-gray-900 overflow-hidden flex items-center justify-center">
-              {result.thumbnailUrl ? (
-                <img
-                  src={result.thumbnailUrl}
-                  alt={result.title || 'Scene preview'}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                />
-              ) : (
-                <span className="text-gray-500 text-sm">No preview</span>
-              )}
-            </div>
-
-            {/* Content */}
-            <div className="p-4">
-              <h3 className="text-sm font-semibold text-white mb-2 line-clamp-2">
-                {result.title || 'Untitled'}
-              </h3>
-
-              {result.snippet && (
-                <p className="text-xs text-gray-400 mb-3 line-clamp-2">
-                  {result.snippet}
-                </p>
-              )}
-
-              {/* Metadata */}
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span className="truncate">
-                  {result.dataset || 'Unknown dataset'}
-                </span>
-                {typeof result.timestampSec !== 'undefined' && (
-                  <span className="ml-2 flex-shrink-0">
-                    {Math.round(result.timestampSec)}s
-                  </span>
-                )}
-              </div>
-            </div>
-          </li>
+            result={result}
+            index={index}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
