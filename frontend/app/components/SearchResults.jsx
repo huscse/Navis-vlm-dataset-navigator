@@ -36,8 +36,8 @@ export default function SearchResults({ results, loading, error }) {
   // Empty state (no results yet)
   if (!results || results.length === 0) {
     return (
-      <div className="mt-10 max-w-3xl mx-auto text-center px-4">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 mb-4">
+      <div className="mt-9 max-w-3xl mx-auto text-center px-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gary-500/10 to-slate-500/10 border border-white/10 mb-4">
           <Sparkles className="w-8 h-8 text-gray-400" />
         </div>
         <h3 className="text-xl font-semibold text-white mb-2">

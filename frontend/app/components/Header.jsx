@@ -220,7 +220,7 @@ export default function Header() {
           Navigator
         </h1>
 
-        <p className="mt-4 mb-30 text-slate-300 text-base sm:text-xl md:text-2xl">
+        <p className="mt-4 mb-19 text-slate-300 text-base sm:text-xl md:text-2xl">
           Search driving datasets with natural language
         </p>
 
