@@ -7,8 +7,7 @@ export default function GitHubButton() {
       provider: 'github',
       options: {
         redirectTo: 'https://vlm-dataset-navigator-frontend.vercel.app/header',
-        // For production, change to deployed URL:
-        // redirectTo: 'https://navis.vercel.app'
+
         scopes: 'read:user user:email', // default is fine, this is optional
       },
     });
