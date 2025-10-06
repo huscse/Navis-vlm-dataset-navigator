@@ -115,7 +115,7 @@ export default function Header() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#111827_0%,#000000_45%,#1F2937_95%)] text-white">
       {/* Top navigation bar */}
-      <div className="sticky top-4 bottom-3 z-10 bg-black/20 backdrop-blur border-b border-white/10">
+      <div className="sticky top-2 bottom-2 z-10 bg-black/20 backdrop-blur border-b border-white/10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           {/* Logo */}
           <Image
