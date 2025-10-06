@@ -8,12 +8,12 @@ const Navigation = () => {
   return (
     <div>
       {' '}
-      <nav className="border-b border-slate-800">
+      <nav className="border-b border-slate-800 mt-3 mb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Image
-                src="/images/navislogo.png"
+                src="/images/navislogodraft.png"
                 alt="Navis Logo"
                 width={100}
                 height={40}
