@@ -1,3 +1,4 @@
+// For Header component
 import React from 'react';
 import SearchBar from './SearchBar';
 
