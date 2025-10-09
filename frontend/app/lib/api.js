@@ -21,8 +21,7 @@ export async function searchDatasets(query) {
       title: `Result for "${query}" — red light near intersection`,
       snippet: 'Vehicle approaches red light; pedestrian steps off curb.',
       dataset: 'nuScenes',
-      thumbnailUrl:
-        'https://dummyimage.com/400x225/eeeeee/aaaaaa.png&text=Frame+Preview',
+      thumbnailUrl: '',
       timestampSec: 12,
     },
     {
@@ -30,8 +29,7 @@ export async function searchDatasets(query) {
       title: `Result for "${query}" — cyclist overtaking on right`,
       snippet: 'Cyclist passes vehicle; potential near-miss with opening door.',
       dataset: 'Waymo',
-      thumbnailUrl:
-        'https://dummyimage.com/400x225/eeeeee/aaaaaa.png&text=Frame+Preview',
+      thumbnailUrl: '',
       timestampSec: 47,
     },
   ];
