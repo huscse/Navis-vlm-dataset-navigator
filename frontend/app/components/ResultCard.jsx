@@ -16,7 +16,6 @@ export default function ResultCard({ result, index }) {
               alt={result.title || 'Scene preview'}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            {/* Overlay gradient for better text readability if needed */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </>
         ) : (
@@ -25,7 +24,6 @@ export default function ResultCard({ result, index }) {
             <span className="text-sm">No preview available</span>
           </div>
         )}
-        
         {/* Timestamp badge */} // will add later if needed
         {/* {typeof result.timestampSec !== 'undefined' && (
           <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs text-white font-medium">
