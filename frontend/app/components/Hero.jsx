@@ -1,4 +1,4 @@
-// For Landing Page component
+// For Landing Page component 
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
