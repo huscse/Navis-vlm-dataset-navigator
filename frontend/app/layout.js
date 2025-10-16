@@ -18,7 +18,7 @@ const orbitron = Orbitron({
 
 export const metadata = {
   title: 'Navis – Where Vision Meets Language',
-  description: 'Search the road, frame by frame',
+  description: 'Search the road, frame by frame.',
   icons: {
     icon: '/favicon.ico',
   },
