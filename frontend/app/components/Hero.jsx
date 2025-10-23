@@ -1,4 +1,4 @@
-// For Landing Page component 
+// For Landing Page component
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -30,12 +30,12 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={changeRoute}
-                className="px-8 py-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-lg font-medium transition-colors"
+                className="px-8 py-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-lg font-medium transition-colors cursor-pointer"
               >
                 Get Started
               </button>
               <button
-                className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-lg text-lg font-medium transition-colors"
+                className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-lg text-lg font-medium transition-colors cursor-pointer"
                 onClick={() => {
                   router.push('/about');
                 }}

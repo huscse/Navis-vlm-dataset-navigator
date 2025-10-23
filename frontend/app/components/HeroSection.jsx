@@ -13,7 +13,7 @@ export default function HeroSection({ onSearch, loading }) {
       <div className="mt-8">
         <SearchBar
           onSearch={onSearch}
-          placeholder="Search scenes, objects, or events…"
+          placeholder="Describe a moment…"
           loading={loading}
           className="max-w-3xl mx-auto"
         />

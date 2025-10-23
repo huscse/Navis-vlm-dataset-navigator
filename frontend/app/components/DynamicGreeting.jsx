@@ -56,7 +56,7 @@ export default function DynamicGreeting() {
           show: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.7, ease: 'easeOut' },
+            transition: { duration: 0.9, ease: 'easeOut' },
           },
         }}
         className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-15"

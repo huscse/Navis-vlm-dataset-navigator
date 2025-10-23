@@ -4,7 +4,7 @@ import { Search, X, Loader2 } from 'lucide-react';
 
 export default function SearchBar({
   onSearch,
-  placeholder = 'Search scenes, objects, or events…',
+  placeholder = 'Describe a moment…',
   defaultValue = '',
   loading = false,
   disabled = false,
