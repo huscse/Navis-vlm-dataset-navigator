@@ -28,7 +28,7 @@ const About = () => {
     },
     {
       id: 1,
-      title: 'Under the Hood',
+      title: 'Under The Hood',
       gradient: 'from-slate-900/95 via-black/95 to-slate-800/95',
       content: (
         <>
