@@ -209,7 +209,7 @@ const About = () => {
           </div>
 
           {/* Team Section */}
-          <div className="mt-24">
+          <div className="mt-17">
             <Team />
           </div>
         </div>
