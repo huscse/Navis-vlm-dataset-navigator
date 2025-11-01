@@ -7,28 +7,19 @@ import Hero from './Hero';
 import Navigation from './Navigation';
 
 export default function LandingPage() {
-  const session = useAuthSession();
+  const { session } = useAuthSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (session === null) {
-      // If no session, redirect to signin
-      router.push('/');
-    }
-  }, [session, router]);
+  return (
+    <div className="min-h-screen bg-[linear-gradient(180deg,#111827_0%,#000000_45%,#1F2937_95%)] text-white">
+      {/* Navigation */}
+      <Navigation />
 
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-[linear-gradient(180deg,#111827_0%,#000000_45%,#1F2937_95%)] text-white">
-        {/* Navigation */}
-        <Navigation />
+      {/* Hero Section */}
+      <Hero />
 
-        {/* Hero Section */}
-        <Hero />
-
-        {/* Footer */}
-        <Footer />
-      </div>
-    );
-  }
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
 }

@@ -64,13 +64,28 @@ const CardStack = () => {
     },
   ];
 
+  const getResponsiveValues = () => {
+    if (typeof window !== 'undefined') {
+      return {
+        offset: window.innerWidth < 640 ? 8 : 20,
+        rotation: window.innerWidth < 640 ? 2 : 4,
+        scale: window.innerWidth < 640 ? 0.96 : 0.92,
+      };
+    }
+    return { offset: 20, rotation: 4, scale: 0.92 };
+  };
+
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="relative h-[380px]" style={{ perspective: '1000px' }}>
+    <div className="max-w-3xl mx-auto px-4">
+      <div
+        className="relative h-[500px] sm:h-[420px] md:h-[380px]"
+        style={{ perspective: '1000px' }}
+      >
         {cards.map((card, index) => {
-          const offset = (index - activeCard) * 20;
-          const rotation = (index - activeCard) * 4;
-          const scale = index === activeCard ? 1 : 0.92;
+          const { offset, rotation, scale } = getResponsiveValues();
+          const cardOffset = (index - activeCard) * offset;
+          const cardRotation = (index - activeCard) * rotation;
+          const cardScale = index === activeCard ? 1 : scale;
           const zIndex = cards.length - Math.abs(index - activeCard);
           const opacity = Math.abs(index - activeCard) > 1 ? 0 : 1;
 
@@ -81,19 +96,19 @@ const CardStack = () => {
                 index !== activeCard ? 'cursor-pointer' : ''
               }`}
               style={{
-                transform: `translateX(${offset}px) translateY(${offset}px) rotateZ(${rotation}deg) scale(${scale})`,
+                transform: `translateX(${cardOffset}px) translateY(${cardOffset}px) rotateZ(${cardRotation}deg) scale(${cardScale})`,
                 zIndex,
                 opacity,
               }}
               onClick={() => index !== activeCard && setActiveCard(index)}
             >
               <div
-                className={`h-full bg-gradient-to-br ${card.gradient} backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 overflow-auto`}
+                className={`h-full bg-gradient-to-br ${card.gradient} backdrop-blur-sm rounded-2xl shadow-2xl p-5 sm:p-8 border border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 overflow-auto`}
               >
-                <h3 className="text-2xl font-bold mb-5 text-white">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5 text-white">
                   {card.title}
                 </h3>
-                <p className="text-lg text-slate-300 leading-relaxed">
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
                   {card.content}
                 </p>
               </div>
@@ -124,7 +139,8 @@ const CardStack = () => {
           onClick={() =>
             setActiveCard((prev) => (prev > 0 ? prev - 1 : cards.length - 1))
           }
-          className="group px-4 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:border-slate-600/70 transition-all duration-300 cursor-pointer"
+          className="group px-3 py-2 sm:px-4 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:border-slate-600/70 transition-all duration-300 cursor-pointer"
+          aria-label="Previous card"
         >
           <svg
             className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors"
@@ -144,7 +160,8 @@ const CardStack = () => {
           onClick={() =>
             setActiveCard((prev) => (prev < cards.length - 1 ? prev + 1 : 0))
           }
-          className="group px-4 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:border-slate-600/70 transition-all duration-300 cursor-pointer"
+          className="group px-3 py-2 sm:px-4 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:border-slate-600/70 transition-all duration-300 cursor-pointer"
+          aria-label="Next card"
         >
           <svg
             className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors"
