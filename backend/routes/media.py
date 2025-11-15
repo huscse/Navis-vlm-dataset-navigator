@@ -13,7 +13,7 @@ from backend.services.drive import resolve_path, download_bytes
 router = APIRouter(prefix="/media", tags=["media"])
 
 # Thread pool for non-blocking Drive downloads
-executor = ThreadPoolExecutor(max_workers=4)
+executor = ThreadPoolExecutor(max_workers=1)
 
 @lru_cache(maxsize=1)
 def get_gdrive_root():
