@@ -18,8 +18,8 @@ BACKEND_ROOT = Path(__file__).resolve().parents[1]
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.append(str(BACKEND_ROOT))
 
-from backend.db.postgres import get_conn
-from backend.services.drive import resolve_path, download_bytes
+from db.postgres import get_conn
+from services.drive import resolve_path, download_bytes
 import clip
 
 
