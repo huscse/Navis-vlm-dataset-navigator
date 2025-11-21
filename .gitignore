@@ -31,7 +31,6 @@ backend/data/
 *.pth
 
 # --- FAISS indexes ---
-backend/faiss_indexes/
 
 
 # env files (NEVER commit)
