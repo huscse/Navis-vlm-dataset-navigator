@@ -46,3 +46,6 @@ frontend/.env.local
 # node / build
 node_modules/
 .next/
+tests/
+jest.config.js
+.DS_Store
