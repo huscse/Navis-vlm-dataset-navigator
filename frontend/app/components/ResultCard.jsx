@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Database,
   Image as ImageIcon,
@@ -16,7 +16,7 @@ import {
 import { useAuthSession } from '../lib/useAuthSession';
 import { addBookmark, removeBookmark, isBookmarked } from '../lib/bookmarks';
 
-export default function ResultCard({ result, index }) {
+export default function ResultCard({ result, index, allResults = [] }) {
   const [shouldLoad, setShouldLoad] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
   const [imgError, setImgError] = useState(false);
@@ -25,6 +25,19 @@ export default function ResultCard({ result, index }) {
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
 
   const { session } = useAuthSession();
+
+  // Check if this is a duplicate frame (same media_key appears earlier in results)
+  const isDuplicate = useMemo(() => {
+    if (!result.media_key) return false;
+
+    const currentMediaKey = result.media_key;
+    for (let i = 0; i < index; i++) {
+      if (allResults[i]?.media_key === currentMediaKey) {
+        return true;
+      }
+    }
+    return false;
+  }, [result.media_key, index, allResults]);
 
   useEffect(() => {
     // Stagger loading - load 1 image every 2 seconds
@@ -39,6 +52,11 @@ export default function ResultCard({ result, index }) {
       isBookmarked(result.frame_id).then(setBookmarked);
     }
   }, [session, result.frame_id]);
+
+  // Don't render if duplicate
+  if (isDuplicate) {
+    return null;
+  }
 
   const rawSrc = result.imageUrl || result.thumbnailUrl;
   const imgSrc = rawSrc ? encodeURI(rawSrc) : null;

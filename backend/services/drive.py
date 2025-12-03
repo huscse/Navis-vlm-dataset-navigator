@@ -47,7 +47,6 @@ if not KEY_PATH.exists():
     )
 
 
-
 @lru_cache(maxsize=1)
 def _get_service():
     """Build and cache the Google Drive service."""

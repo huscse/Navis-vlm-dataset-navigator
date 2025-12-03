@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from psycopg.rows import dict_row
 from pathlib import Path
 import numpy as np
+from collections import defaultdict
 # DON'T import faiss here - import it inside the function
 
 from backend.db.postgres import get_conn
@@ -90,6 +91,9 @@ def search(
             'motorcycle': ['motorcycle', 'motorcycles', 'motorbike', 'motorbikes'],
             'traffic light': ['traffic light', 'traffic lights', 'stoplight', 'stoplights', 'signal', 'signals'],
             'bus': ['bus', 'buses'],
+            'dog': ['dog', 'dogs', 'puppy', 'puppies'],
+            'cat': ['cat', 'cats', 'kitten', 'kittens'],
+            'stop sign': ['stop sign', 'stop signs'],
         }
         
         detected_objects = []
@@ -129,32 +133,38 @@ def search(
     placeholders = ','.join(['%s'] * len(candidate_frame_ids))
     
     sql = f"""
-    SELECT
-      f.id        AS frame_id,
-      f.media_key AS media_key,
-      f.sample_token AS sample_token,
-      d.slug      AS dataset_slug,
-      d.name      AS dataset_name,
-      s.scene_token AS sequence_name,
-      s.sensor    AS sensor,
-      d.media_base_uri AS media_base_uri
-    FROM navis.frames f
-    JOIN navis.sequences s ON s.id = f.sequence_id
-    JOIN navis.datasets d  ON d.id = s.dataset_id
-    WHERE f.id IN ({placeholders})
-    AND s.scene_token != '2011_09_26_drive_0001_sync'
+    WITH RankedFrames AS (
+        SELECT DISTINCT ON (f.media_key)
+            f.id        AS frame_id,
+            f.media_key AS media_key,
+            f.sample_token AS sample_token,
+            d.slug      AS dataset_slug,
+            d.name      AS dataset_name,
+            s.scene_token AS sequence_name,
+            s.sensor    AS sensor,
+            d.media_base_uri AS media_base_uri,
+            f.id as original_id
+        FROM navis.frames f
+        JOIN navis.sequences s ON s.id = f.sequence_id
+        JOIN navis.datasets d  ON d.id = s.dataset_id
+        WHERE f.id IN ({placeholders})
+        AND s.scene_token != '2011_09_26_drive_0001_sync'
+        ORDER BY f.media_key, f.id
+    )
+    SELECT * FROM RankedFrames
+    WHERE 1=1
     """
     
     params = candidate_frame_ids
     
     # Apply dataset filter
     if dataset:
-        sql += " AND d.slug = %s"
+        sql += " AND dataset_slug = %s"
         params.append(dataset)
     
     # Apply sequence filter
     if sequence:
-        sql += " AND s.scene_token = %s"
+        sql += " AND sequence_name = %s"
         params.append(sequence)
     
     # Apply object filter
@@ -164,7 +174,7 @@ def search(
         sql += f"""
             AND EXISTS (
                 SELECT 1 FROM navis.frame_objects fo
-                WHERE fo.frame_id = f.id 
+                WHERE fo.frame_id = frame_id 
                 AND fo.object_type IN ({placeholders_obj})
                 AND fo.confidence > 0.5
             )
@@ -176,28 +186,62 @@ def search(
         cur.execute(sql, params)
         rows = cur.fetchall()
     
-    # 5) Build response, preserving FAISS ranking
+    # 5) Build response with dataset diversity
     frame_id_to_row = {r['frame_id']: r for r in rows}
     frame_id_to_distance = dict(zip(candidate_frame_ids, candidate_distances))
     
-    hits: List[SearchHit] = []
+    # Group frames by dataset while preserving FAISS ranking order
+    dataset_frames = defaultdict(list)
+    seen_media_keys = set()
+    
     for frame_id in candidate_frame_ids:
         if frame_id in frame_id_to_row:
             r = frame_id_to_row[frame_id]
-
-            hits.append(
-                SearchHit(
-                    frame_id=r['frame_id'],
-                    score=float(frame_id_to_distance[frame_id]),
-                    media_key=r['media_key'],
-                    media_url=_media_url(r['media_base_uri'], r['media_key']),
-                    dataset=r['dataset_name'] or r['dataset_slug'],
-                    sequence=r['sequence_name'],
-                    sensor=r['sensor'] or 'N/A',
-                    frame_number=r['sample_token'] or str(r['frame_id']),
-                )
-            )
-            if len(hits) >= k:
+            media_key = r['media_key']
+            
+            # Skip duplicates
+            if media_key in seen_media_keys:
+                continue
+            
+            seen_media_keys.add(media_key)
+            dataset_name = r['dataset_name'] or r['dataset_slug']
+            
+            # Store frame data with its score
+            dataset_frames[dataset_name].append({
+                'frame_id': r['frame_id'],
+                'score': float(frame_id_to_distance[frame_id]),
+                'media_key': media_key,
+                'media_url': _media_url(r['media_base_uri'], media_key),
+                'dataset': dataset_name,
+                'sequence': r['sequence_name'],
+                'sensor': r['sensor'] or 'N/A',
+                'frame_number': r['sample_token'] or str(r['frame_id']),
+            })
+    
+    # Interleave results from different datasets for diversity
+    hits: List[SearchHit] = []
+    dataset_iterators = {ds: iter(frames) for ds, frames in dataset_frames.items()}
+    datasets = list(dataset_iterators.keys())
+    
+    if not datasets:
+        return SearchResponse(query=q, k=k, hits=[])
+    
+    # Round-robin through datasets
+    current_dataset_idx = 0
+    while len(hits) < k and dataset_iterators:
+        dataset = datasets[current_dataset_idx % len(datasets)]
+        
+        try:
+            frame_data = next(dataset_iterators[dataset])
+            hits.append(SearchHit(**frame_data))
+        except StopIteration:
+            # This dataset is exhausted, remove it
+            del dataset_iterators[dataset]
+            datasets.remove(dataset)
+            if not datasets:
                 break
+            continue
+        
+        current_dataset_idx += 1
     
     return SearchResponse(query=q, k=k, hits=hits)

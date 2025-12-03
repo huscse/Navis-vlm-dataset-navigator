@@ -2,13 +2,13 @@
 Run object detection on frames and store results in the database.
 Uses YOLOv8 for fast, accurate detection.
 """
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # add /backend to sys.path
+
+from db.postgres import get_conn
+from services.drive import resolve_path, download_bytes
 
 from ultralytics import YOLO
-from backend.db.postgres import get_conn
-from backend.services.drive import download_bytes, resolve_path
 from urllib.parse import urlparse
 import io
 from PIL import Image

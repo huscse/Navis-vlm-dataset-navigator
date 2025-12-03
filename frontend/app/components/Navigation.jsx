@@ -52,6 +52,12 @@ const Navigation = () => {
                     >
                       Search
                     </Link>
+                    <Link
+                      href="/demo"
+                      className="px-4 py-2 text-slate-300 hover:text-white transition-colors"
+                    >
+                      Demo
+                    </Link>
                     <button
                       onClick={handleSignOut}
                       className="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors cursor-pointer text-white"
@@ -62,6 +68,12 @@ const Navigation = () => {
                 ) : (
                   // Signed out state
                   <>
+                    <Link
+                      href="/demo"
+                      className="px-4 py-2 text-slate-300 hover:text-white transition-colors"
+                    >
+                      Demo
+                    </Link>
                     <Link
                       href="/signin"
                       className="px-4 py-2 text-slate-300 hover:text-white transition-colors"
@@ -131,6 +143,13 @@ const Navigation = () => {
                 >
                   Search
                 </Link>
+                <Link
+                  href="/demo"
+                  className="block px-4 py-2.5 text-slate-300 hover:text-white transition-colors text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Demo
+                </Link>
                 <button
                   className="w-full px-4 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors cursor-pointer text-white font-medium"
                   onClick={() => {
@@ -143,6 +162,13 @@ const Navigation = () => {
               </>
             ) : (
               <>
+                <Link
+                  href="/demo"
+                  className="block px-4 py-2.5 text-slate-300 hover:text-white transition-colors text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Demo
+                </Link>
                 <Link
                   href="/signin"
                   className="block px-4 py-2.5 text-slate-300 hover:text-white transition-colors text-center"
