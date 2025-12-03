@@ -52,6 +52,23 @@ export default function SearchResults({ results, loading, error }) {
     );
   }
 
+  // Create formatted results array with media_key for deduplication
+  const formattedResults = results.map((r, index) => ({
+    // Pass all metadata fields directly
+    imageUrl: r.media_absolute_url,
+    thumbnailUrl: r.absUrl || r.media_url,
+    title: r.media_key,
+    dataset: r.dataset,
+    sequence: r.sequence,
+    sensor: r.sensor,
+    frame_number: r.frame_number,
+    frame_id: r.frame_id,
+    score: r.score,
+    caption: r.caption,
+    media_key: r.media_key, // Important for deduplication!
+    raw: r,
+  }));
+
   // Results grid
   return (
     <div className="mt-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -61,31 +78,20 @@ export default function SearchResults({ results, loading, error }) {
           <div className="w-1 h-6 bg-gradient-to-b from-gray-400 to-slate-700 rounded-full" />
           <h2 className="text-lg font-semibold text-white">Search Results</h2>
           <span className="text-sm text-gray-200">
-            ({results.length} {results.length === 1 ? 'result' : 'results'})
+            ({formattedResults.length}{' '}
+            {formattedResults.length === 1 ? 'result' : 'results'})
           </span>
         </div>
       </div>
 
       {/* Results grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {results.map((r, index) => (
+        {formattedResults.map((result, index) => (
           <ResultCard
-            key={r.frame_id ?? r.id ?? `${r.media_key}-${index}`}
-            result={{
-              // Pass all metadata fields directly
-              imageUrl: r.media_absolute_url,
-              thumbnailUrl: r.absUrl || r.media_url,
-              title: r.media_key,
-              dataset: r.dataset,
-              sequence: r.sequence,
-              sensor: r.sensor,
-              frame_number: r.frame_number,
-              frame_id: r.frame_id,
-              score: r.score,
-              caption: r.caption,
-              raw: r,
-            }}
+            key={result.frame_id ?? result.id ?? `${result.media_key}-${index}`}
+            result={result}
             index={index}
+            allResults={formattedResults} // Pass full array for duplicate checking
           />
         ))}
       </div>

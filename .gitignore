@@ -56,3 +56,6 @@ pgdata/
 SimSun.ttf
 *.sql
 object_detection.log
+backend/faiss_indexes/*.index
+backend/faiss_indexes/*.npy
+backend/*.log
