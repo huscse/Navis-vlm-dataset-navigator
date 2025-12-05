@@ -30,10 +30,10 @@ This approach aims to significantly reduce the manual effort currently required 
 
 This project is developed by the Latitude AI 2A team:
 
-- [Husnain Khaliq](https://github.com/huscse)
-- [Gagan Charagondla](https://github.com/gagan12334)
-- [Keerthana Venkatesan](https://github.com/keerthanavenkatesan415)
-- [Lissette Solano](https://github.com/Lissette31)
-- [Manasvi](https://github.com/ManuPer4)
-- [Yesun Ang](https://github.com/yesun-ang)
-- [Erica li](https://github.com/erica-1i)
+- [Husnain Khaliq] (https://github.com/huscse)
+- [Gagan Charagondla] (https://github.com/gagan12334)
+- [Keerthana Venkatesan] (https://github.com/keerthanavenkatesan415)
+- [Lissette Solano] (https://github.com/Lissette31)
+- [Manasvi ](https://github.com/ManuPer4)
+- [Yesun Ang] (https://github.com/yesun-ang)
+- [Erica Li] (https://github.com/erica-1i)
