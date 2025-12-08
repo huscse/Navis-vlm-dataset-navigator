@@ -32,7 +32,6 @@
 | **Gagan Charagondla** | https://github.com/gagan12334 | VLM / Backend |
 | **Keerthana Venkatesan** | https://github.com/keerthanavenkatesan415 | VLM / Data Processing|
 | **Lissette Solano** | https://github.com/Lissette31 | Data Processing
- |
 | **Manasvi** | https://github.com/ManuPer4 | Data Processing|
 | **Yesun Ang** | https://github.com/yesun-ang | VLM / Data Processing |
 | **Erica Li** | https://github.com/erica-1i | UI/UX- Frontend|
